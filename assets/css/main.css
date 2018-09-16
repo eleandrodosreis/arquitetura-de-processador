@@ -1,0 +1,10 @@
+#instructions {
+    width: 300px;
+    min-height: 400px; 
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    word-break: normal;
+    background-color: #666;
+    color: #FFF;
+    padding: 20px;
+}
