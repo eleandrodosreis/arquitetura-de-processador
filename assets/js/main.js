@@ -89,15 +89,17 @@ class Interpreter {
 window.onload = function() {
     
     let interpreter = new Interpreter;
-
     let instructions = document.getElementById("instructions").value.trim().split(/\r?\n/);
     interpreter.setInstructions(clearInstructions(instructions));
 
-    getMemoryDataInit(interpreter);
+    memoryDataInit(interpreter);
 
 }
 
-function clearInstructions(instructions) {
+/* Function clean the instructions
+ * @param: object  
+ */
+function clearInstructions( instructions ) {
     let newArray = [];
     instructions.map(function(elem, index) {
         newArray.push(elem.trim());
@@ -105,7 +107,7 @@ function clearInstructions(instructions) {
     return newArray;
 }
 
-function getMemoryDataInit(data) {
+function memoryDataInit( data ) {
     let label = [];
     let codeBegin = false;
     data.instructions.map(function(value, index) {
@@ -123,12 +125,25 @@ function getMemoryDataInit(data) {
                     })
                 } else {
                     let dataSplited = value.split(":");
-                    keepValue = false
-                    iterator = 0;
+                    let keepValue = false
+                    let iterator = 0;
                     while(!keepValue) {
                         if(!data.memory[iterator]) {
                             data.setLabel(dataSplited[0].trim(), iterator);
                             data.setMemory(iterator, dataSplited[1].trim());
+                            keepValue = true;
+                        } else {
+                            iterator++;
+                        }
+                    }
+                }
+            } else {
+                if(value !== ".data" && value !== ".enddata" && value !== ".code" && value !== ".endcode" && value) {
+                    let keepValue = false
+                    let iterator = 0;
+                    while(!keepValue) {
+                        if(!data.memory[iterator]) {
+                            data.setMemory(iterator, value.trim());
                             keepValue = true;
                         } else {
                             iterator++;
@@ -141,6 +156,10 @@ function getMemoryDataInit(data) {
             console.log("Inicializando a memória");
         }
     })
-
+    console.log("Memória pronta");
     console.log(data);
+}
+
+function execInstructions( instructions ) {
+     
 }
