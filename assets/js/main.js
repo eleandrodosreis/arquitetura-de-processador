@@ -8,8 +8,6 @@ class Interpreter {
         this.memory = [];
         this.labels = [];
         this.instructions = null;
-        this.memoryOperators = [];
-        this.loadMemoryOperators();
     }
 
     setInstructions(data) {
@@ -24,64 +22,77 @@ class Interpreter {
         this.labels[label] = value;
     }
 
-    loadMemoryOperators() {
-        this.memoryOperators = {
-            "ST": function(pos, operator) {
-                if(this.memory[pos] = operator) {
-                    return true;
-                } else { return false; }
-            },
-            "LD": function(operator) {
-                return this.memory[operator];
-            },
-            "ADD": function(ac, operator) {
-                return ac + operator;
-            },
-            "SUB": function(ac, operator) {
-                return ac - operator;
-            },
-            "JMP": function(operator) {
-                if(this.PC = operator){
-                    return true;
-                } else { return false; }
-            },
-            "JN": function(operator) {
-                if(this.N === 1) {
-                    this.PC = operator;
-                    return true;
-                } else {
-                    return false;
-                }
-            },
-            "JP": function(operator) {
-                if(this.N === 0) {
-                    this.PC = operator;
-                    return true;
-                } else {
-                    return false;
-                }
-            },
-            "JZ": function(operator) {
-                if(this.Z === 1) {
-                    this.PC = operator;
-                    return true;
-                } else {
-                    return false;
-                }
-            },
-            "JNZ": function(operator) {
-                if(this.Z === 0) {
-                    this.PC = operator;
-                    return true;
-                } else {
-                    return false;
-                }
-            },
-            "HALT": function() {
-                this.finished = true;
-                return true;
-            }
+    setPC(data) {
+        this.PC = data;
+    }
+
+    setAC(pos, data) {
+        this.AC[pos] = data;
+    }
+
+    commandST(pos, operator) {
+        if(this.memory[pos] = operator) {
+            return true;
+        } else { return false; }
+    }
+
+    LD(operator) {
+        return this.memory[operator];
+    }
+
+    commandADD(ac, operator) {
+        return ac + operator;
+    }
+
+    commandSUB(ac, operator) {
+        return ac - operator;
+    }
+
+    commandJMP(operator) {
+        if(this.PC = operator){
+            return true;
+        } else { return false; }
+    }
+
+    commandJN(operator) {
+        if(this.N === 1) {
+            this.PC = operator;
+            return true;
+        } else {
+            return false;
         }
+    }
+
+    commandJP(operator) {
+        if(this.N === 0) {
+            this.PC = operator;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    commandJZ(operator) {
+        if(this.Z === 1) {
+            this.PC = operator;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    commandJNZ(operator) {
+        if(this.Z === 0) {
+            this.PC = operator;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    commandHALT() {
+        this.finished = true;
+        return true;
     }
 }
 
@@ -93,7 +104,7 @@ window.onload = function() {
     interpreter.setInstructions(clearInstructions(instructions));
 
     memoryDataInit(interpreter);
-
+    execInstructions(interpreter);
 }
 
 /* Function clean the instructions
@@ -157,9 +168,28 @@ function memoryDataInit( data ) {
         }
     })
     console.log("Memória pronta");
-    console.log(data);
 }
 
 function execInstructions( instructions ) {
-     
+    const data = instructions;
+    let stop = false;
+
+    console.log(data);
+
+    while(!stop) {
+        let command = data.memory[data.PC].split(" ");
+        
+        if(command[1].includes("#")) {
+            console.log("OPERAÇÃO MATEMÁTICA");
+        } else if(data.labels[command[1]]) {
+            console.log('LABEL');
+            data.setAC = parseInt(command[1], 10);
+            let value = data.LD(31);
+            console.log(value);
+        } else {
+            console.log('ELSE');
+        }
+        
+        stop = true;
+    }
 }
