@@ -1,102 +1,3 @@
-class Interpreter {
-    constructor() {
-        this.AC = [];
-        this.PC = 0;
-        this.N = 0;
-        this.Z = 0;
-        this.finished = false;
-        this.memory = [];
-        this.labels = [];
-        this.instructions = null;
-    }
-
-    setInstructions(data) {
-        this.instructions = data;  
-    }
-
-    setMemory(pos, data) {
-        this.memory[pos] = data;
-    }
-
-    setLabel(label, value) {
-        this.labels[label] = value;
-    }
-
-    setPC(data) {
-        this.PC = data;
-    }
-
-    setAC(pos, data) {
-        this.AC[pos] = data;
-    }
-
-    commandST(pos, operator) {
-        if(this.memory[pos] = operator) {
-            return true;
-        } else { return false; }
-    }
-
-    LD(operator) {
-        return this.memory[operator];
-    }
-
-    commandADD(ac, operator) {
-        return ac + operator;
-    }
-
-    commandSUB(ac, operator) {
-        return ac - operator;
-    }
-
-    commandJMP(operator) {
-        if(this.PC = operator){
-            return true;
-        } else { return false; }
-    }
-
-    commandJN(operator) {
-        if(this.N === 1) {
-            this.PC = operator;
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    commandJP(operator) {
-        if(this.N === 0) {
-            this.PC = operator;
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    commandJZ(operator) {
-        if(this.Z === 1) {
-            this.PC = operator;
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    commandJNZ(operator) {
-        if(this.Z === 0) {
-            this.PC = operator;
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    commandHALT() {
-        this.finished = true;
-        return true;
-    }
-}
-
-
 window.onload = function() {
     
     let interpreter = new Interpreter;
@@ -174,22 +75,96 @@ function execInstructions( instructions ) {
     const data = instructions;
     let stop = false;
 
-    console.log(data);
-
     while(!stop) {
         let command = data.memory[data.PC].split(" ");
-        
-        if(command[1].includes("#")) {
-            console.log("OPERAÇÃO MATEMÁTICA");
-        } else if(data.labels[command[1]]) {
-            console.log('LABEL');
-            data.setAC = parseInt(command[1], 10);
-            let value = data.LD(31);
-            console.log(value);
+
+        if(command[0] !== "HALT") {
+
+            // Set PC
+            data.setPC(data.PC + 1);
+
+            let exec = command[0];
+            let value = null;
+
+            if(command[1].includes("#")) {
+                console.log("OPERAÇÃO MATEMÁTICA");
+
+                let number = command[1].replace(/#|,|:/g, "");
+                number = parseInt(number, 10);
+
+                switch (exec) {
+                    case "ADD":
+                        value = data.commandADD(data.AC[0], number);
+                        data.setAC(0, value);
+                        break;
+                    case "SUB":
+                        value = data.commandSUB(data.AC[0], number);
+                        data.setAC(0, value);
+                        break;
+                    default:
+                        break;
+                }
+
+            } else if(data.labels[command[1]] >= 0) {
+                console.log('LABEL');
+                let label = data.labels[command[1]];
+
+                switch (exec) {
+                    case "ST":
+                        value = data.commandST(label, data.AC[0]);
+                        break;
+                    case "LD":
+                        value = data.commandLD(label);
+                        data.setAC(0, value);
+                        break;
+                    case "ADD":
+                        value = data.commandADD(data.AC[0], data.memory[label]);
+                        data.setAC(0, value);
+                        break;
+                    case "SUB":
+                        value = data.commandSUB(data.AC[0], data.memory[label]);
+                        data.setAC(0, value);
+                        break;
+                    case "JMP":
+                        value = data.commandJMP(label);
+                        break;
+                    case "JN":
+                        value = data.commandJN(label);
+                        break;
+                    case "JP":
+                        value = data.commandJP(label);
+                        break;
+                    case "JZ":
+                        value = data.commandJZ(label);
+                        break;
+                    case "JNZ":
+                        value = data.commandJNZ(label);
+                        break;
+                    default:
+                        break;
+                }
+
+                console.log(exec);
+                
+
+            } else {
+                console.log(command);
+            }
+
+            data.setZ();
+            data.setN();
+
         } else {
-            console.log('ELSE');
+            stop = true;
+            console.log("ACABOU!!!!!!");
         }
+
+        console.log("PC:"+ data.PC, "AC:"+data.AC[0], "Z:"+data.Z, "N:"+data.N, "Operando:"+command[1]);
         
-        stop = true;
+        /*let resp = parseInt(prompt("Continuar? 1 Sim 0 Não"));
+
+        if(!resp) {
+            stop = true;
+        }*/
     }
 }
