@@ -1,5 +1,15 @@
 window.onload = function() {
     
+    // Initialize the layout
+    let memoryTable = '';
+    for (let j = 0; j < 80; j++) {
+        memoryTable += '<div class="memory_item"><span>'+j+'</span><div></div></div>';
+    }
+
+    // Wrapper
+    const wrapper = document.getElementById("memory");
+    wrapper.innerHTML = memoryTable;
+
     let interpreter = new Interpreter;
     let instructions = document.getElementById("instructions").value.trim().split(/\r?\n/);
     interpreter.setInstructions(clearInstructions(instructions));

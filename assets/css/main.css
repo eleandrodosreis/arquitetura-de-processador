@@ -1,3 +1,11 @@
+* {
+    padding: 0;
+    border: 0;
+    margin: 0;
+}
+body {
+    font-family: 'Times New Roman', Times, serif;
+}
 #instructions {
     width: 300px;
     min-height: 400px; 
@@ -7,4 +15,30 @@
     background-color: #666;
     color: #FFF;
     padding: 20px;
+    box-sizing: border-box;
+    float: left;
+}
+#memory {
+    width: 900px;
+    background-color: #333;
+    min-height: 400px;
+    float: left;
+}
+#memory .memory_item {
+    border: 1px solid #ccc;
+    display: inline-block;
+    text-align: center;
+    vertical-align: top;
+    min-height: 56px;
+}
+#memory .memory_item span {
+    color: #CCC;
+    font-size: 12px;
+    font-weight: normal;
+}
+#memory .memory_item div {
+    padding: 10px;
+    color: #ccc;
+    border-top: 1px solid #CCC;
+    font-size: 14px;
 }
