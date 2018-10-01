@@ -27,8 +27,49 @@ FIM:    HALT
 .endcode
 </textarea>
 
+<!--
+
+.data
+VEZES: DB #31, #5
+AXISX: DB #32, #0
+AXISY: DB #33, #0
+COLORR: DB #40, #255
+COLORG: DB #41, #0
+COLORB: DB #42, #0
+.enddata
+
+.code
+INICIO: LD VEZES
+        JZ FIM
+        SUB #1
+        ST VEZES
+        LD AXISX
+        LD2 AXISY
+        POS
+        ST AXISX
+        ST2 AXISY
+        LD COLORR
+        LD2 COLORG
+        LD3 COLORB
+        PXL
+        ST COLORR
+        ST2 COLORG
+        ST3 COLORB
+        LD AXISX
+        ADD #5
+        ST AXISX
+        JMP INICIO
+FIM:    HALT
+.endcode
+
+
+-->
+
 <section id="memory">
 </section>
+
+<button onclick="initProgram()">INICIAR PROGRAMA</button>
+<button id="continuar-programa">CONTINUAR</button>
 
 <script src="assets/js/interpreter.js"></script>
 <script src="assets/js/main.js"></script>

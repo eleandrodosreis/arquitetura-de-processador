@@ -42,3 +42,36 @@ body {
     border-top: 1px solid #CCC;
     font-size: 14px;
 }
+.register {
+    display: inline-block;
+    width: 100%;
+    margin: 40px;
+}
+.register span {
+    background-color: #CCC;
+    padding: 10px;
+}
+button {
+    padding: 20px;
+    background-color: green;
+    color: #FFF;
+    cursor: pointer
+}
+#console {
+    width: 50%;
+    height: 300px;
+    background-color: #000;
+    display: inline-block;
+    color: #FFF;
+    padding: 20px;
+    box-sizing: border-box;
+    vertical-align: top;
+}
+#canvas {
+    width: 50%;
+    height: 300px;
+    background-color: #FFF;
+    display: inline-block;
+    box-sizing: border-box;
+    vertical-align: top;
+}

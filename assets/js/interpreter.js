@@ -4,10 +4,16 @@ class Interpreter {
         this.PC = 0;
         this.N = 0;
         this.Z = 0;
+        this.X = 0;
+        this.Y = 0;
         this.finished = false;
         this.memory = [];
         this.labels = [];
         this.instructions = null;
+    }
+
+    transformRgbToHex(r, g, b) {
+        return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
     }
 
     setInstructions(data) {
@@ -108,6 +114,22 @@ class Interpreter {
 
     commandHALT() {
         this.finished = true;
+        return true;
+    }
+
+    commandPOS() {
+        this.X = this.AC[0];
+        this.Y = this.AC[1];
+        return true;
+    }
+
+    commandPXL() {
+        let pixel = 5;
+        let c = document.getElementById("canvas");
+        let ctx = c.getContext("2d");
+        let color = "#" + ((1 << 24) + (this.AC[0] << 16) + (this.AC[1] << 8) + this.AC[2]).toString(16).slice(1);
+        ctx.fillStyle = color;
+        ctx.fillRect(this.X, this.Y, pixel, pixel);
         return true;
     }
 }
