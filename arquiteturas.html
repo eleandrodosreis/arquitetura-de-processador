@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" media="screen" href="assets/css/main.css" />
 </head>
 <body>
+<div class="container">
 <textarea id="instructions" name="code">
 .data
 RESULT: DB #30, #0
@@ -28,21 +29,23 @@ FIM:    HALT
 </textarea>
 
 <!--
-
 .data
-VEZES: DB #31, #5
-AXISX: DB #32, #0
-AXISY: DB #33, #0
 COLORR: DB #40, #255
 COLORG: DB #41, #0
 COLORB: DB #42, #0
+TOP: DB #43, #5
+RIGHT: DB #44, #4
+BOTTOM: DB #45, #5
+LEFT: DB #46, #4
+AXISX: DB #47, #0
+AXISY: DB #48, #0
 .enddata
 
 .code
-INICIO: LD VEZES
-        JZ FIM
+INICIO: LD TOP
+        JZ VERT
         SUB #1
-        ST VEZES
+        ST TOP
         LD AXISX
         LD2 AXISY
         POS
@@ -59,17 +62,31 @@ INICIO: LD VEZES
         ADD #5
         ST AXISX
         JMP INICIO
+VERT:   ST TOP
+VERTI:  LD RIGHT
+        JZ FIM
+        SUB #1
+        ST RIGHT
+        LD2 AXISY
+        ADD #5
+        ST2 AXISY
+        LD COLORR
+        LD2 COLORG
+        LD3 COLORB
+        PXL
+        ST COLORR
+        ST2 COLORG
+        ST3 COLORB
+        JMP VERTI
 FIM:    HALT
 .endcode
-
-
 -->
 
-<section id="memory">
-</section>
+<section id="memory"></section>
 
 <button onclick="initProgram()">INICIAR PROGRAMA</button>
 <button id="continuar-programa">CONTINUAR</button>
+</div>
 
 <script src="assets/js/interpreter.js"></script>
 <script src="assets/js/main.js"></script>

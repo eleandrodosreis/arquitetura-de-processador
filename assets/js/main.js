@@ -12,6 +12,8 @@ window.onload = function() {
     memoryTable += '<span>PC:</span><span class="operator_pc">0</span>';
     memoryTable += '<span>N:</span><span class="operator_n">0</span>';
     memoryTable += '<span>Z:</span><span class="operator_z">0</span>';
+    memoryTable += '<span>X:</span><span class="operator_x">0</span>';
+    memoryTable += '<span>Y:</span><span class="operator_y">0</span>';
     memoryTable += '</div>';
 
     memoryTable += '<div class="outputs"><div id="console"></div>';
@@ -58,6 +60,8 @@ function updateView( data ) {
     let PC = document.getElementsByClassName("operator_pc");
     let N = document.getElementsByClassName("operator_n");
     let Z = document.getElementsByClassName("operator_z");
+    let X = document.getElementsByClassName("operator_x");
+    let Y = document.getElementsByClassName("operator_y");
     let result = document.getElementById("console");
     AC[0].innerHTML = data.AC[0];
     AC2[0].innerHTML = data.AC[1];
@@ -65,6 +69,8 @@ function updateView( data ) {
     PC[0].innerHTML = data.PC;
     N[0].innerHTML = data.N;
     Z[0].innerHTML = data.Z;
+    X[0].innerHTML = data.X;
+    Y[0].innerHTML = data.Y;
     result.innerHTML = data.AC[0];
 }
 
@@ -126,6 +132,7 @@ function execInstructions( instructions ) {
     let stop = false;
 
     while(!stop) {
+        console.log(data.memory[data.PC]);
         let command = data.memory[data.PC].split(" ");
 
         if(command[0] !== "HALT") {
@@ -213,7 +220,7 @@ function execInstructions( instructions ) {
                     }
 
                 } else {
-                    console.log(command);
+                    //console.log(command);
                 }
             } else {
                 switch (exec) {
@@ -221,6 +228,7 @@ function execInstructions( instructions ) {
                         value = data.commandPOS();
                         break;
                     case "PXL":
+                        console.log(data.X, data.Y);
                         value = data.commandPXL();
                         break;
                     default:
@@ -235,8 +243,6 @@ function execInstructions( instructions ) {
         }
 
         updateView(data);
-
-        console.log("X:"+data.X, "Y:"+data.Y);
     }
 
 }
