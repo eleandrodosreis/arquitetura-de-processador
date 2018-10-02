@@ -1,5 +1,12 @@
 window.onload = function() {
     
+    initLayout();
+}
+
+/* Function initialize the program
+ * @param: 
+ */
+function initLayout() {
     // Initialize the layout
     let memoryTable = '';
     for (let j = 0; j < 100; j++) {
@@ -25,18 +32,26 @@ window.onload = function() {
     wrapper.innerHTML = memoryTable;
 }
 
+/* Function initialize the program
+ * @param: 
+ */
 function initProgram() {
     let interpreter = new Interpreter;
-    let instructions = document.getElementById("instructions").value.trim().split(/\r?\n/);
-    interpreter.setInstructions(clearInstructions(instructions));
+    let elem = document.getElementById("instructions");
 
-    memoryDataInit(interpreter);
-    updateView(interpreter);
-    execInstructions(interpreter);
+    if(elem.value) {
+        let instructions = elem.value.trim().split(/\r?\n/);
+
+        interpreter.setInstructions(clearInstructions(instructions));
+
+        memoryDataInit(interpreter);
+        updateView(interpreter);
+        execInstructions(interpreter);
+    }
 }
 
 /* Function clean the instructions
- * @param: object  
+ * @param: object Interpreter
  */
 function clearInstructions( instructions ) {
     let newArray = [];
@@ -46,6 +61,9 @@ function clearInstructions( instructions ) {
     return newArray;
 }
 
+/* Function Update the view status
+ * @param: object Interpreter
+ */
 function updateView( data ) {
     let memory = data.memory;
 
@@ -74,6 +92,9 @@ function updateView( data ) {
     result.innerHTML = data.AC[0];
 }
 
+/* Function initialize the memory and organize commands by slots
+ * @param: object Interpreter
+ */
 function memoryDataInit( data ) {
     let label = [];
     let codeBegin = false;
@@ -126,6 +147,9 @@ function memoryDataInit( data ) {
     console.log("Memória pronta");
 }
 
+/* Function execute memory instructions order by PC 
+ * @param: object Interpreter
+ */
 function execInstructions( instructions ) {
     const data = instructions;
     let acIndex = 0;
@@ -215,6 +239,9 @@ function execInstructions( instructions ) {
                         case "JNZ":
                             value = data.commandJNZ(label);
                             break;
+                        case "RND":
+                            value = data.commandRND(label);
+                            break;
                         default:
                             break;
                     }
@@ -223,16 +250,22 @@ function execInstructions( instructions ) {
                     //console.log(command);
                 }
             } else {
-                switch (exec) {
-                    case "POS":
-                        value = data.commandPOS();
-                        break;
-                    case "PXL":
-                        console.log(data.X, data.Y);
-                        value = data.commandPXL();
-                        break;
-                    default:
-                        break;
+                if(exec !== "CLR") {
+                    switch (exec) {
+                        case "POS":
+                            value = data.commandPOS();
+                            break;
+                        case "PXL":
+                            value = data.commandPXL();
+                            break;
+                        default:
+                            break;
+                    }
+                } else {
+                    let elem = document.getElementById("instructions");
+                    elem.value = "";
+                    initProgram();
+                    break;
                 }
             }
             data.setZ();
@@ -241,8 +274,6 @@ function execInstructions( instructions ) {
             stop = true;
             console.log("ACABOU!!!!!!");
         }
-
         updateView(data);
     }
-
 }

@@ -132,4 +132,9 @@ class Interpreter {
         ctx.fillRect(this.X, this.Y, pixel, pixel);
         return true;
     }
+
+    commandRND(pos) {
+        let rand = Math.floor((Math.random() * this.AC[1]) + this.AC[0]);
+        this.memory[pos] = rand;
+    }
 }

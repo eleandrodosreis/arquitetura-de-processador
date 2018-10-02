@@ -178,10 +178,66 @@ FIM:    HALT
 .endcode
 -->
 
-<section id="memory"></section>
+<!-- RETANGULO PREENCHIDO CORES ALEATÓRIAS
+.data
+COLORR: DB #90, #0
+COLORG: DB #91, #0
+COLORB: DB #92, #255
+HORIZONTAL: DB #93, #20
+VERTICAL: DB #94, #10
+AXISX: DB #95, #10
+AXISY: DB #96, #10
+RANDI: DB #97, #0
+RANDF: DB #98, #255
+.enddata
 
-<button onclick="initProgram()">INICIAR PROGRAMA</button>
-<button id="continuar-programa">CONTINUAR</button>
+.code
+INICIO: LD HORIZONTAL
+        JZ VERT
+        SUB #1
+        ST HORIZONTAL
+        LD AXISX
+        LD2 AXISY
+        POS
+        ST AXISX
+        ST2 AXISY
+        LD RANDI
+        LD2 RANDF
+        RND COLORR
+        RND COLORG
+        RND COLORB
+        ST RANDI
+        ST2 RANDF
+        LD COLORR
+        LD2 COLORG
+        LD3 COLORB
+        PXL
+        ST COLORR
+        ST2 COLORG
+        ST3 COLORB
+        LD AXISX
+        ADD #5
+        ST AXISX
+        JMP INICIO
+VERT:   ADD #20
+        ST HORIZONTAL
+        LD2 AXISY
+        ADD #5
+        ST2 AXISY
+        LD AXISX
+        SUB #100
+        ST AXISX
+        LD VERTICAL
+        JZ FIM
+        SUB #1
+        ST VERTICAL
+        JMP INICIO
+FIM:    HALT
+.endcode
+-->
+
+        <section id="memory"></section>
+        <button onclick="initProgram()">INICIAR PROGRAMA</button>
 </div>
 
 <script src="assets/js/interpreter.js"></script>
