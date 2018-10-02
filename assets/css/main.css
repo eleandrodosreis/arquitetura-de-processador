@@ -5,6 +5,7 @@
 }
 body {
     font-family: 'Times New Roman', Times, serif;
+    background-color: #333;
 }
 .container {
     width: 1200px;
@@ -44,7 +45,7 @@ body {
     padding: 10px;
     color: #ccc;
     border-top: 1px solid #CCC;
-    font-size: 14px;
+    font-size: 11px;
 }
 .register {
     display: inline-block;

@@ -28,24 +28,123 @@ FIM:    HALT
 .endcode
 </textarea>
 
-<!--
+<!-- RETANGULO CONTORNO
 .data
-COLORR: DB #40, #255
-COLORG: DB #41, #0
-COLORB: DB #42, #0
-TOP: DB #43, #5
-RIGHT: DB #44, #4
-BOTTOM: DB #45, #5
-LEFT: DB #46, #4
-AXISX: DB #47, #0
-AXISY: DB #48, #0
+COLORR: DB #90, #0
+COLORG: DB #91, #255
+COLORB: DB #92, #0
+HORIZONTAL: DB #93, #20
+VERTICAL: DB #94, #10
+AXISX: DB #95, #10
+AXISY: DB #96, #10
 .enddata
 
 .code
-INICIO: LD TOP
+TOPO:   LD HORIZONTAL
+        JZ DIR
+        SUB #1
+        ST HORIZONTAL
+        LD AXISX
+        LD2 AXISY
+        POS
+        ST AXISX
+        ST2 AXISY
+        LD COLORR
+        LD2 COLORG
+        LD3 COLORB
+        PXL
+        ST COLORR
+        ST2 COLORG
+        ST3 COLORB
+        LD AXISX
+        ADD #5
+        ST AXISX
+        JMP TOPO
+DIR:    ADD #20
+        ST HORIZONTAL
+DRAW1:  LD VERTICAL
+        JZ BOTTOM
+        SUB #1
+        ST VERTICAL
+        LD AXISX
+        LD2 AXISY
+        POS
+        ST AXISX
+        ST2 AXISY
+        LD COLORR
+        LD2 COLORG
+        LD3 COLORB
+        PXL
+        ST COLORR
+        ST2 COLORG
+        ST3 COLORB
+        LD2 AXISY
+        ADD #5
+        ST2 AXISY
+        JMP DRAW1
+BOTTOM: ADD #10
+        ST VERTICAL
+DRAW2:  LD HORIZONTAL
+        JZ LEFT
+        SUB #1
+        ST HORIZONTAL
+        LD AXISX
+        LD2 AXISY
+        POS
+        ST AXISX
+        ST2 AXISY
+        LD COLORR
+        LD2 COLORG
+        LD3 COLORB
+        PXL
+        ST COLORR
+        ST2 COLORG
+        ST3 COLORB
+        LD AXISX
+        SUB #5
+        ST AXISX
+        JMP DRAW2
+LEFT:   ST HORIZONTAL
+DRAW3:  LD VERTICAL
+        JZ FIM
+        SUB #1
+        ST VERTICAL
+        LD AXISX
+        LD2 AXISY
+        POS
+        ST AXISX
+        ST2 AXISY
+        LD COLORR
+        LD2 COLORG
+        LD3 COLORB
+        PXL
+        ST COLORR
+        ST2 COLORG
+        ST3 COLORB
+        LD2 AXISY
+        SUB #5
+        ST2 AXISY
+        JMP DRAW3
+FIM:    HALT
+.endcode
+-->
+
+<!-- RETANGULO PREENCHIDO 
+.data
+COLORR: DB #90, #0
+COLORG: DB #91, #0
+COLORB: DB #92, #255
+HORIZONTAL: DB #93, #20
+VERTICAL: DB #94, #10
+AXISX: DB #95, #10
+AXISY: DB #96, #10
+.enddata
+
+.code
+INICIO: LD HORIZONTAL
         JZ VERT
         SUB #1
-        ST TOP
+        ST HORIZONTAL
         LD AXISX
         LD2 AXISY
         POS
@@ -62,22 +161,19 @@ INICIO: LD TOP
         ADD #5
         ST AXISX
         JMP INICIO
-VERT:   ST TOP
-VERTI:  LD RIGHT
-        JZ FIM
-        SUB #1
-        ST RIGHT
+VERT:   ADD #20
+        ST HORIZONTAL
         LD2 AXISY
         ADD #5
         ST2 AXISY
-        LD COLORR
-        LD2 COLORG
-        LD3 COLORB
-        PXL
-        ST COLORR
-        ST2 COLORG
-        ST3 COLORB
-        JMP VERTI
+        LD AXISX
+        SUB #100
+        ST AXISX
+        LD VERTICAL
+        JZ FIM
+        SUB #1
+        ST VERTICAL
+        JMP INICIO
 FIM:    HALT
 .endcode
 -->

@@ -2,7 +2,7 @@ window.onload = function() {
     
     // Initialize the layout
     let memoryTable = '';
-    for (let j = 0; j < 80; j++) {
+    for (let j = 0; j < 100; j++) {
         memoryTable += '<div class="memory_item"><span>'+j+'</span><div></div></div>';
     }
     memoryTable += '<div class="register">';
